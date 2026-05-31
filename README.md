@@ -1,7 +1,20 @@
-# OIM3690
-Course work for OIM 3690 in summer 2026
+# OIM3690 - AI-Powered Web Development
 
-My name is Shiv Motwani and I am looking forward to building my websites!
+- **Name**: Shiv Kapil Motwani
+- **Semester**: Summer 2026
 
-## My Projects
-- [My Personal Website](https://<smotwani1>.github.io/)
+This is my course repo for OIM3690. It holds class exercises, weekly logs, and links to all my projects.
+
+## Projects
+
+| Project | Repo | Live URL |
+|---------|------|----------|
+| Personal Website | [repo](https://github.com/smotwani1/smotwani1.github.io) | [live](https://<smotwani1>.github.io/) |
+| MP1 — Website for Someone Else | | |
+| MP2 — Interactive Web Tool | | |
+| MP3 — API-Powered App | | |
+| Final Project | | |
+
+## Weekly Logs
+
+See the [logs/](logs/) folder.
