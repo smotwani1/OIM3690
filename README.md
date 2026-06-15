@@ -10,7 +10,7 @@ This is my course repo for OIM3690. It holds class exercises, weekly logs, and l
 | Project | Repo | Live URL |
 |---------|------|----------|
 | Personal Website | [repo](https://github.com/smotwani1/smotwani1.github.io) | [live](https://<smotwani1>.github.io/) |
-| MP1 — Website for Someone Else | | |
+| MP1 — Website for Someone Else |[repo](https://github.com/smotwani1/watertown-ma-road-test-guide) |[live](https://smotwani1.github.io/watertown-ma-road-test-guide/index.html) |
 | MP2 — Interactive Web Tool | | |
 | MP3 — API-Powered App | | |
 | Final Project | | |
