@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lightning Talk — SpaceX buys Cursor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0B1A2B;
+    --ink-2:#12283F;
+    --paper:#F2EFE6;
+    --ignition:#FF5A2C;
+    --signal:#6FB7C9;
+    --muted:#7C8DA0;
+    --hair:rgba(242,239,230,.14);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:"Inter",system-ui,sans-serif;
+    overflow:hidden;
+  }
+
+  /* ---------- deck mechanics ---------- */
+  .deck{position:fixed;inset:0}
+  .slide{
+    position:absolute;inset:0;
+    display:flex;flex-direction:column;
+    justify-content:center;
+    padding:clamp(32px,6vw,96px);
+    opacity:0;visibility:hidden;
+    transform:translateY(14px);
+    transition:opacity .5s ease,transform .5s ease,visibility .5s;
+  }
+  .slide.active{opacity:1;visibility:visible;transform:none}
+  @media (prefers-reduced-motion:reduce){
+    .slide{transition:opacity .2s ease}
+    .slide,.slide.active{transform:none}
+  }
+
+  /* ---------- shared type ---------- */
+  .eyebrow{
+    font-family:"JetBrains Mono",monospace;
+    font-size:clamp(11px,1.05vw,14px);
+    letter-spacing:.34em;text-transform:uppercase;
+    color:var(--signal);
+    display:flex;align-items:center;gap:14px;
+  }
+  .eyebrow::before{content:"";width:30px;height:2px;background:var(--ignition)}
+  h1,h2{
+    font-family:"Space Grotesk",sans-serif;
+    font-weight:700;line-height:.98;letter-spacing:-.02em;
+  }
+  h1{font-size:clamp(40px,7.4vw,104px)}
+  h2{font-size:clamp(34px,6vw,84px)}
+  .accent{color:var(--ignition)}
+  .lede{
+    font-size:clamp(17px,2.1vw,27px);
+    color:var(--paper);max-width:22ch;line-height:1.32;font-weight:400;
+  }
+  .lede .dim{color:var(--muted)}
+
+  /* ---------- slide 1: trajectory ---------- */
+  .arc-wrap{position:absolute;inset:0;pointer-events:none;z-index:0}
+  .arc-wrap svg{width:100%;height:100%}
+  .path-line{stroke:var(--ignition);stroke-width:2.5;fill:none;
+    stroke-dasharray:1400;stroke-dashoffset:1400;
+    animation:draw 1.6s .35s cubic-bezier(.4,0,.2,1) forwards}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  @media (prefers-reduced-motion:reduce){.path-line{animation:none;stroke-dashoffset:0}}
+  .way{opacity:0;animation:pop .5s forwards}
+  .way.w1{animation-delay:.9s}
+  .way.w2{animation-delay:1.6s}
+  @keyframes pop{from{opacity:0}to{opacity:1}}
+  @media (prefers-reduced-motion:reduce){.way{opacity:1;animation:none}}
+  .s1 .copy{position:relative;z-index:2;max-width:18ch}
+  .s1 h1{margin:18px 0 22px}
+
+  /* ---------- stat row (slide 2) ---------- */
+  .stats{display:flex;flex-wrap:wrap;gap:clamp(20px,3vw,56px);margin-top:clamp(30px,4vh,52px)}
+  .stat{flex:1 1 180px;min-width:160px;border-top:1px solid var(--hair);padding-top:16px}
+  .stat .num{
+    font-family:"JetBrains Mono",monospace;font-weight:700;
+    font-size:clamp(30px,4.4vw,58px);color:var(--paper);line-height:1;
+  }
+  .stat .num .unit{color:var(--ignition)}
+  .stat .lab{margin-top:10px;font-size:clamp(12px,1.15vw,15px);color:var(--muted);line-height:1.35;max-width:20ch}
+  .s2 h2{margin:16px 0 6px}
+  .punch{font-family:"JetBrains Mono",monospace;color:var(--signal);
+    font-size:clamp(13px,1.4vw,18px);margin-top:clamp(26px,4vh,46px);letter-spacing:.02em}
+  .punch b{color:var(--paper);font-weight:700}
+
+  /* ---------- slide 3 ---------- */
+  .race{display:flex;align-items:center;gap:clamp(14px,2vw,28px);
+    margin:26px 0 6px;font-family:"JetBrains Mono",monospace;flex-wrap:wrap}
+  .chip{border:1px solid var(--hair);border-radius:2px;padding:9px 14px;
+    font-size:clamp(12px,1.3vw,16px);color:var(--paper)}
+  .chip.lead{border-color:var(--signal);color:var(--signal)}
+  .vs{color:var(--muted);font-size:clamp(12px,1.2vw,15px)}
+  .share{font-family:"JetBrains Mono",monospace;font-size:clamp(15px,1.7vw,21px);
+    color:var(--muted);margin-top:18px}
+  .share s{color:var(--muted);text-decoration-color:var(--ignition)}
+  .share b{color:var(--ignition);font-weight:700}
+  .takeaway{margin-top:clamp(28px,4.5vh,52px);max-width:24ch;
+    font-family:"Space Grotesk",sans-serif;font-weight:500;
+    font-size:clamp(20px,2.7vw,38px);line-height:1.15;letter-spacing:-.01em}
+  .takeaway .accent{font-weight:700}
+
+  /* ---------- chrome ---------- */
+  .chrome{position:fixed;left:clamp(32px,6vw,96px);right:clamp(32px,6vw,96px);
+    bottom:clamp(20px,3.4vh,40px);display:flex;justify-content:space-between;
+    align-items:center;z-index:10;font-family:"JetBrains Mono",monospace;
+    font-size:12px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+  .chrome .who b{color:var(--paper);font-weight:500}
+  .dots{display:flex;gap:9px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--hair);
+    border:none;cursor:pointer;padding:0;transition:background .25s,transform .25s}
+  .dot.on{background:var(--ignition);transform:scale(1.25)}
+  .hint{position:fixed;top:clamp(20px,3vh,34px);right:clamp(32px,6vw,96px);
+    font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.16em;
+    color:var(--muted);text-transform:uppercase;z-index:10;opacity:.7}
+  .src{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);
+    margin-top:clamp(22px,3.5vh,40px);letter-spacing:.04em;opacity:.75}
+</style>
+</head>
+<body>
+<div class="hint">← → to advance</div>
+
+<div class="deck" id="deck">
+
+  <!-- SLIDE 1 -->
+  <section class="slide s1 active">
+    <div class="arc-wrap" aria-hidden="true">
+      <svg viewBox="0 0 1000 600" preserveAspectRatio="none">
+        <path class="path-line" d="M -20 560 C 280 555, 560 470, 720 250 S 940 40, 1020 10"/>
+        <g class="way w1">
+          <circle cx="280" cy="538" r="6" fill="var(--signal)"/>
+          <text x="296" y="528" fill="var(--signal)" font-family="JetBrains Mono" font-size="15" letter-spacing="2">JUN 12 · IPO</text>
+        </g>
+        <g class="way w2">
+          <circle cx="720" cy="250" r="7" fill="var(--ignition)"/>
+          <text x="612" y="232" fill="var(--ignition)" font-family="JetBrains Mono" font-size="15" letter-spacing="2">JUN 16 · $60B DEAL</text>
+        </g>
+      </svg>
+    </div>
+    <div class="copy">
+      <div class="eyebrow">Lightning Talk · AI &amp; Markets</div>
+      <h1>Your code editor now belongs to a&nbsp;<span class="accent">rocket company.</span></h1>
+      <p class="lede">SpaceX bought Cursor for <strong>$60&nbsp;billion</strong> <span class="dim">— four days after going public.</span></p>
+    </div>
+  </section>
+
+  <!-- SLIDE 2 -->
+  <section class="slide s2">
+    <div class="eyebrow">How they pulled it off</div>
+    <h2>Nobody paid cash.</h2>
+    <div class="stats">
+      <div class="stat">
+        <div class="num">$75<span class="unit">B</span></div>
+        <div class="lab">raised at IPO — the largest in history</div>
+      </div>
+      <div class="stat">
+        <div class="num">+19<span class="unit">%</span></div>
+        <div class="lab">stock pop on day one, ~$2T market cap</div>
+      </div>
+      <div class="stat">
+        <div class="num">2<span class="unit"> days</span></div>
+        <div class="lab">later, a $60B all-stock deal for Cursor</div>
+      </div>
+    </div>
+    <p class="punch">A four-day-old stock became <b>"supercurrency."</b> &nbsp;Surging shares = acquisition fuel.</p>
+  </section>
+
+  <!-- SLIDE 3 -->
+  <section class="slide s3">
+    <div class="eyebrow">Why it matters</div>
+    <h2>Buying into a race it was&nbsp;<span class="accent">losing.</span></h2>
+    <div class="race">
+      <span class="chip">SpaceX · xAI</span>
+      <span class="vs">chasing</span>
+      <span class="chip lead">Anthropic</span>
+      <span class="chip lead">OpenAI</span>
+    </div>
+    <p class="share">Cursor's own market share: <s>41%</s> &nbsp;→&nbsp; <b>26%</b> &nbsp;in under a year.</p>
+    <p class="takeaway">When your stock surges, it stops being a scoreboard and becomes a <span class="accent">weapon.</span></p>
+    <p class="src">Sources: Bloomberg, CNBC, Fortune, TechCrunch · Jun 2026</p>
+  </section>
+
+</div>
+
+<div class="chrome">
+  <div class="who">A 2-minute talk by <b>Shiv</b></div>
+  <div class="dots" id="dots"></div>
+</div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const dotsWrap = document.getElementById('dots');
+  let i = 0;
+
+  slides.forEach((_, n) => {
+    const b = document.createElement('button');
+    b.className = 'dot' + (n === 0 ? ' on' : '');
+    b.setAttribute('aria-label', 'Go to slide ' + (n + 1));
+    b.addEventListener('click', e => { e.stopPropagation(); go(n); });
+    dotsWrap.appendChild(b);
+  });
+  const dots = Array.from(dotsWrap.children);
+
+  function go(n){
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, k) => s.classList.toggle('active', k === i));
+    dots.forEach((d, k) => d.classList.toggle('on', k === i));
+  }
+  function next(){ go(i + 1); }
+  function prev(){ go(i - 1); }
+
+  document.addEventListener('keydown', e => {
+    if (['ArrowRight',' ','PageDown'].includes(e.key)) { e.preventDefault(); next(); }
+    else if (['ArrowLeft','PageUp'].includes(e.key)) { e.preventDefault(); prev(); }
+  });
+  document.getElementById('deck').addEventListener('click', e => {
+    if (e.target.closest('.dot')) return;
+    next();
+  });
+</script>
+</body>
+</html>
